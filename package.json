@@ -4,11 +4,28 @@
   "main": "server.js",
   "type": "module",
   "scripts": {
-     "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    
+    // For production, start the server with Node
     "start": "node server.js",
-    "server": "nodemon serevr.js",
-    "client": "npm start --prefix ./client ",
-    "dev": "concurrently \"npm start\" \"npm run client\""
+    
+    // Development: Nodemon for live reloading (use this locally only)
+    "server": "nodemon server.js",
+    
+    // Run React app in development mode (for local dev)
+    "client": "npm start --prefix ./client",
+    
+    // Local development: start both backend (Express) and frontend (React) in parallel
+    "dev": "concurrently \"npm run server\" \"npm run client\"",
+    
+    // Build React app (needed before deploying to Render)
+    "client-build": "npm run build --prefix ./client",
+    
+    // This is for building the entire app (backend + frontend)
+    "build": "npm run client-build && npm install --prefix ./client",
+    
+    // For deployment: you want to serve the React build files with Express
+    "postinstall": "npm run build"
   },
   "keywords": [],
   "author": "",
@@ -33,3 +50,4 @@
     "slugify": "^1.6.6"
   }
 }
+
